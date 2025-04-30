@@ -1,21 +1,23 @@
 # Microweb
 
-A minimalistic Python web framework inspired by Node.js Express, focused on simplicity and small size.
+A minimalistic web framework for **MicroPython**, inspired by Node.js Express and focused on simplicity and small size.
 
 ## Features
 
-- Basic request routing
+- Basic request routing similar to Express.js
 - Middleware support
-- Core structure for handling requests and responses
-- Organized into `core`, `lib`, and `middleware` modules
+- Lightweight core for handling HTTP requests and responses
+- Clear modular structure: `core`, `lib`, `middleware`
 
 ## Installation
 
-Currently not published as a package. To use:
+Clone the repository and copy the needed files into your MicroPython project:
+
 ```bash
 git clone https://github.com/mkormout/microweb.git
 ```
-and import the necessary modules into your project.
+
+> Note: Microweb is intended for MicroPython environments, e.g., ESP32 or Raspberry Pi Pico W.
 
 ## Example Usage
 
@@ -24,10 +26,10 @@ from microweb.core.app import App
 
 app = App()
 
-# Example middleware
-async def logger_middleware(req, res, next_func):
+# Example middleware (synchronous for MicroPython compatibility)
+def logger_middleware(req, res, next_func):
     print(f"{req.method} {req.path}")
-    await next_func()
+    next_func()
 
 app.use(logger_middleware)
 
@@ -42,8 +44,8 @@ def submit(req, res):
 app.route('/', 'GET', home)
 app.route('/submit', 'POST', submit)
 
-if __name__ == '__main__':
-    app.listen('127.0.0.1', 8000)
+# Run server
+app.listen('0.0.0.0', 80)
 ```
 
 ## Project Structure
@@ -51,19 +53,19 @@ if __name__ == '__main__':
 ```
 microweb/
 │
-├── core/         # Framework core (App, Request, Response)
-├── lib/          # Helper libraries
+├── core/         # Core framework components (App, Request, Response)
+├── lib/          # Helper utilities
 ├── middleware/   # Middleware support
-└── __init__.py   # Initialization file
+└── __init__.py   # Package initialization
 ```
 
 ## Requirements
 
-- Python 3.7+
+- MicroPython (tested on ESP32)
 
 ## Project Status
 
-This project is under active development and is not ready for production use.
+This project is under active development and not yet production-ready.
 
 ## License
 
